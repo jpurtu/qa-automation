@@ -2,7 +2,7 @@ const { defineConfig, devices } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
-  testIgnore: '**/performance/**',
+  testIgnore: ['**/performance/**', '**/unit/**', '**/mocks/**', '**/contracts/**', '**/database/**', '**/gatling/**'],
   reporter: [
     ['html'],
     ['allure-playwright']
