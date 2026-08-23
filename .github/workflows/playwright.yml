@@ -32,5 +32,8 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
+      - name: Correr unit tests con Jest
+        run: npx jest
+
       - name: Correr colección Postman con Newman
         run: ./postman/run.sh

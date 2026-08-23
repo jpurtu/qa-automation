@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:e2e": "playwright test",
+    "test:unit": "jest",
+    "test:newman": "./postman/run.sh",
+    "test:all": "jest && playwright test"
   },
   "keywords": [],
   "type": "commonjs",
