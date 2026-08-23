@@ -12,13 +12,15 @@
   "jest": {
     "testMatch": [
       "**/unit/**/*.test.js",
-      "**/mocks/**/*.test.js"
+      "**/mocks/**/*.test.js",
+      "**/contracts/**/*.test.js"
     ]
   },
   "keywords": [],
   "type": "commonjs",
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@pact-foundation/pact": "^13.2.2",
     "@playwright/test": "^1.62.1",
     "allure-commandline": "^2.43.0",
     "allure-playwright": "^3.10.2",
