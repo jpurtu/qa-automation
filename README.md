@@ -1,57 +1,69 @@
-# QA Automation Suite
+# influx-cli
 
-Suite completa de pruebas automatizadas construida con Playwright y k6.
+CLI for managing resources in InfluxDB v2
 
-## Reporte de tests en vivo
-https://jpurtu.github.io/qa-automation
+## Motivation
 
-## Suites incluidas
+This repository decouples the `influx` CLI from the OSS `influxdb` codebase. Our goals are to:
+1. Make it easier to keep the CLI up-to-date with InfluxDB Cloud API changes
+2. Enable faster turn-around on fixes/features that only affect the CLI
+3. Allow the CLI to be built & released for a wider range of platforms than the server can support
 
-### E2E Testing — Playwright
-- Login válido, inválido, campos vacíos y usuario bloqueado
-- Flujo completo: login → agregar producto → verificar carrito
-- Page Object Model implementado
+## Building the CLI
 
-### API Testing — Playwright
-- GET lista de recursos
-- GET recurso por ID
-- GET recurso inexistente (404)
-- POST crear recurso
-- PUT actualizar recurso
-- DELETE eliminar recurso
+Follow these steps to build the CLI. If you're updating your CLI build, see *Updating openapi* below.
+1. Clone this repo (influx-cli) and change to your _influx-cli_ directory.
 
-### Performance Testing — k6
-- Load test con 10 usuarios virtuales concurrentes
-- Rampa de subida, carga sostenida y rampa de bajada
-- Thresholds: p(95) < 500ms, error rate < 1%
-- Resultados: p(95) = 166ms, 0% errores HTTP
+   ```
+   git clone git@github.com:influxdata/influx-cli.git
+   cd influx-cli
+   ```
+   
+2. Build the CLI. The `make` and `make influx` commands write the new binary to `bin/$(GOOS)/influx`.
+   
+   ```
+   make
+   ```
+   
+### Updating openapi
 
-## Stack
-- Playwright 1.62
-- k6
-- Node.js
-- JavaScript
-- GitHub Actions (CI/CD)
+If you change or update your branch, you may also need to update `influx-cli/openapi` and regenerate the client code.
+`influx-cli/openapi` is a Git submodule that contains the underlying API contracts and client used by the CLI.
+We use [`OpenAPITools/openapi-generator`](https://github.com/OpenAPITools/openapi-generator) to generate
+the HTTP client.
 
-## Ejecutar tests
+To update, run the following commands in your `influx-cli` repo:
 
-Instalar dependencias:
-\```
-npm install
-npx playwright install
-\```
+1. Update the _openapi_ Git submodule. The following command pulls the latest commits for the branch and all submodules.
 
-E2E y API tests:
-\```
-npx playwright test
-\```
+   `git pull --recurse-submodules`
+   
+2. With [Docker](https://docs.docker.com/get-docker/) running locally, regenerate _openapi_.
 
-Performance tests:
-\```
-k6 run tests/performance/load.test.js
-\```
+   `make openapi`
+   
+3. Rebuild the CLI
 
-Modo visual:
-\```
-npx playwright test --headed
-\```
+   `make`
+ 
+## Running the CLI
+
+After building, use `influx -h` to see the list of available commands.
+
+### Enabling Completions
+
+The CLI supports generating completions for `bash`, `zsh`, and `powershell`. To enable completions for a
+single shell session, run one of these commands:
+```
+# For bash:
+source <(influx completion bash)
+# For zsh:
+source <(influx completion zsh)
+# For pwsh:
+Invoke-Expression ((influx completion powershell) -join "`n`")
+```
+To enable completions across sessions, add the appropriate line to your shell's login profile (i.e. `~/.bash_profile`).
+
+## Testing
+
+Run `make test` to run unit tests.
