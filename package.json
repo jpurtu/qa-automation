@@ -9,6 +9,9 @@
     "test:newman": "./postman/run.sh",
     "test:all": "jest && playwright test"
   },
+  "jest": {
+    "testMatch": ["**/unit/**/*.test.js"]
+  },
   "keywords": [],
   "type": "commonjs",
   "devDependencies": {
