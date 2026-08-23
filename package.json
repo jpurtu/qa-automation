@@ -11,6 +11,8 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.1",
+    "allure-commandline": "^2.43.0",
+    "allure-playwright": "^3.10.2",
     "newman": "^6.2.2",
     "newman-reporter-htmlextra": "^1.23.1"
   }
