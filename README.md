@@ -1,4 +1,6 @@
 # QA Automation - Playwright
+## Reporte de tests en vivo
+https://jpurtu.github.io/qa-automation
 
 Suite de pruebas E2E automatizadas con Playwright para la app Swag Labs.
 
